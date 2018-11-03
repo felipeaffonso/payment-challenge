@@ -30,7 +30,7 @@ public class TransferServiceMysqlImpl implements TransferService {
 
     @Override
     @Transactional(propagation = Propagation.REQUIRES_NEW, rollbackFor = Exception.class)
-    public Optional<Transfer> createTransfer(final Long sourceAccountId , final Long targetAccountId, final BigDecimal amount) {
+    public Optional<Transfer> createTransfer(final Long sourceAccountId, final Long targetAccountId, final BigDecimal amount) {
         try {
 
             final Account sourceAccount = this.accountService.findAccount(sourceAccountId)
@@ -74,7 +74,7 @@ public class TransferServiceMysqlImpl implements TransferService {
     public Optional<Transfer> findTransfer(Long id) {
         try {
             return this.transferRepository.findById(id);
-        } catch(final Exception e) {
+        } catch (final Exception e) {
             throw new CouldNotFindTransferException("Could not find Transfer with id: " + id, e);
         }
     }

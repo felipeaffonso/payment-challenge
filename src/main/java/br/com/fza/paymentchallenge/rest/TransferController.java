@@ -39,12 +39,12 @@ public class TransferController {
     public TransferResponse createTransfer(final @Valid @RequestBody TransferRequest transferRequest) {
         try {
             return this.transferService.createTransfer(
-                        transferRequest.getSourceAccountNumber(),
-                        transferRequest.getTargetAccountNumber(),
-                        transferRequest.getAmount())
+                    transferRequest.getSourceAccountNumber(),
+                    transferRequest.getTargetAccountNumber(),
+                    transferRequest.getAmount())
                     .map(this.transferConverter::convert)
                     .orElseThrow(() -> new CouldNotCreateTransferException(transferRequest));
-        } catch(final Exception e) {
+        } catch (final Exception e) {
             log.error(e.getMessage(), e);
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage(), e);
         }
@@ -52,16 +52,16 @@ public class TransferController {
 
     @ApiOperation(value = "Find a Specific Transfer")
     @ResponseStatus(HttpStatus.OK)
-    @GetMapping(value= "/{number}", produces = APPLICATION_JSON_UTF8_VALUE)
+    @GetMapping(value = "/{number}", produces = APPLICATION_JSON_UTF8_VALUE)
     public TransferResponse findTransaction(final @PathVariable("number") Long id) {
         try {
             return this.transferService.findTransfer(id)
                     .map(this.transferConverter::convert)
                     .orElseThrow(() -> new TransferNotFoundException("Transfer # " + id + " does not exists."));
-        } catch(final TransferNotFoundException e) {
+        } catch (final TransferNotFoundException e) {
             log.error(e.getMessage(), e);
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage(), e);
-        } catch(final Exception e) {
+        } catch (final Exception e) {
             log.error(e.getMessage(), e);
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage(), e);
         }

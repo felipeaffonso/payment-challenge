@@ -19,7 +19,7 @@ import static javax.persistence.GenerationType.AUTO;
 @Setter(value = AccessLevel.PACKAGE)
 @Getter
 @EqualsAndHashCode(callSuper = true)
-public class Account extends BaseAuditEntity{
+public class Account extends BaseAuditEntity {
 
     @Id
     @GeneratedValue(strategy = AUTO)
@@ -33,18 +33,18 @@ public class Account extends BaseAuditEntity{
     private Integer version;
 
     public void giveMoney(final @NonNull BigDecimal amount) {
-        if(amount.compareTo(BigDecimal.ZERO) < 0) {
+        if (amount.compareTo(BigDecimal.ZERO) < 0) {
             throw new IllegalArgumentException("Amount must be a positive and greater than zero BigDecimal");
         }
         final BigDecimal newBalance = balance.subtract(amount);
-        if(newBalance.compareTo(BigDecimal.ZERO) < 0) {
+        if (newBalance.compareTo(BigDecimal.ZERO) < 0) {
             throw new NegativeAccountBalanceException();
         }
         this.balance = newBalance;
     }
 
     public void receiveMoney(final @NonNull BigDecimal amount) {
-        if(amount.compareTo(BigDecimal.ZERO) < 0) {
+        if (amount.compareTo(BigDecimal.ZERO) < 0) {
             throw new IllegalArgumentException("Amount must be a positive and greater than zero BigDecimal");
         }
         this.balance = this.balance.add(amount);

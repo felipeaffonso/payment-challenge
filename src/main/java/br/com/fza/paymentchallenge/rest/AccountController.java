@@ -48,7 +48,7 @@ public class AccountController {
 
             final Account createdAccount = this.accountService.createAccount(this.accountRequestConverter.convert(accountRequest));
             return this.accountConverter.convert(createdAccount);
-        } catch(final Exception e) {
+        } catch (final Exception e) {
             log.error(e.getMessage(), e);
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage(), e);
         }
@@ -56,16 +56,16 @@ public class AccountController {
 
     @ApiOperation(value = "Find a Specific Account")
     @ResponseStatus(HttpStatus.OK)
-    @GetMapping(value= "/{number}", produces = APPLICATION_JSON_UTF8_VALUE)
+    @GetMapping(value = "/{number}", produces = APPLICATION_JSON_UTF8_VALUE)
     public AccountResponse findAccount(final @PathVariable("number") Long id) {
         try {
-            return  this.accountService.findAccount(id)
+            return this.accountService.findAccount(id)
                     .map(this.accountConverter::convert)
                     .orElseThrow(() -> new AccountNotFoundException("Account # " + id + " does not exists."));
-        } catch(final AccountNotFoundException e) {
+        } catch (final AccountNotFoundException e) {
             log.error(e.getMessage(), e);
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage(), e);
-        } catch(final Exception e) {
+        } catch (final Exception e) {
             log.error(e.getMessage(), e);
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage(), e);
         }
@@ -79,7 +79,7 @@ public class AccountController {
             return StreamSupport.stream(this.accountService.findAllAccounts().spliterator(), false)
                     .map(this.accountConverter::convert)
                     .collect(Collectors.toList());
-        } catch(final Exception e) {
+        } catch (final Exception e) {
             log.error(e.getMessage(), e);
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage(), e);
         }

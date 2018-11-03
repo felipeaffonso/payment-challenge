@@ -13,6 +13,8 @@ import java.lang.annotation.Target;
 public @interface NotSameAccount {
 
     String message() default "sourceAccountNumber and targetAccountNumber must be different";
+
     Class<?>[] groups() default {};
+
     Class<? extends Payload>[] payload() default {};
 }

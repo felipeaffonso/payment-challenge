@@ -19,37 +19,37 @@ import java.util.stream.IntStream;
 public final class DateUtils {
 
     public static LocalDate timestampToLocalDate(final Timestamp timestamp) {
-        if(timestamp == null)
-            return  null;
+        if (timestamp == null)
+            return null;
         return timestamp.toLocalDateTime().toLocalDate();
     }
 
     public static Date localDateToDate(final LocalDate localDate) {
-        if(localDate == null)
+        if (localDate == null)
             return null;
         return Date.valueOf(localDate);
     }
 
     public static Timestamp localDateTimeToTimestamp(final LocalDateTime localDateTime) {
-        if(localDateTime == null)
+        if (localDateTime == null)
             return null;
         return Timestamp.valueOf(localDateTime);
     }
 
     public static Timestamp localDateToTimestamp(final LocalDate localDate) {
-        if(localDate == null)
+        if (localDate == null)
             return null;
         return Timestamp.valueOf(localDate.atStartOfDay());
     }
 
     public static LocalDateTime timestampToLocalDateTime(final Timestamp timestamp) {
-        if(timestamp == null)
-            return  null;
+        if (timestamp == null)
+            return null;
         return timestamp.toLocalDateTime();
     }
 
     public static LocalDateTime stringToLocalDateTime(final String dateString) {
-        if(dateString == null) {
+        if (dateString == null) {
             return null;
         }
         final DateTimeFormatter formatter = DateTimeFormatter
@@ -59,7 +59,7 @@ public final class DateUtils {
     }
 
     public static String localDateTimeToStringPtBr(final LocalDateTime date) {
-        if(date == null) {
+        if (date == null) {
             return null;
         }
         final DateTimeFormatter formatter = DateTimeFormatter
@@ -69,7 +69,7 @@ public final class DateUtils {
     }
 
     public static LocalDate stringToLocalDate(final String dateString) {
-        if(dateString == null) {
+        if (dateString == null) {
             return null;
         }
         final DateTimeFormatter formatter = DateTimeFormatter
@@ -80,7 +80,7 @@ public final class DateUtils {
     }
 
     public static LocalDateTime isoStringToLocalDateTime(final String dateTime) {
-        if(StringUtils.isEmpty(dateTime))
+        if (StringUtils.isEmpty(dateTime))
             return null;
         return LocalDateTime.parse(dateTime, DateTimeFormatter.ISO_DATE_TIME);
     }
