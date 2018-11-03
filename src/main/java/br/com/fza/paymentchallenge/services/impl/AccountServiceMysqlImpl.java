@@ -6,8 +6,6 @@ import br.com.fza.paymentchallenge.repository.AccountRepository;
 import br.com.fza.paymentchallenge.services.AccountService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.hibernate.StaleObjectStateException;
-import org.springframework.orm.ObjectOptimisticLockingFailureException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,21 +28,6 @@ public class AccountServiceMysqlImpl implements AccountService {
         }
     }
 
-    @Override
-    public void deleteAccount(final Long id) {
-        try {
-            final boolean accountExists = this.accountRepository.existsById(id);
-            if (accountExists) {
-                this.accountRepository.delete(Account.builder().id(id).build());
-            } else {
-                throw new AccountNotFoundException("The account id " + id + " does not exists");
-            }
-        } catch(final AccountNotFoundException e) {
-            throw e;
-        } catch(final Exception e) {
-            throw new CouldNotDeleteAccountException("The account " + id + " could not be deleted.", e);
-        }
-    }
 
     @Override
     public Optional<Account> findAccount(final Long id) {
@@ -73,4 +56,5 @@ public class AccountServiceMysqlImpl implements AccountService {
             throw new CouldNotUpdateAccountException("The account " + account.getId() +  " could not be updated.", e);
         }
     }
+
 }

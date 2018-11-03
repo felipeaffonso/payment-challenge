@@ -1,8 +1,8 @@
 package br.com.fza.paymentchallenge.rest;
 
-import br.com.fza.paymentchallenge.rest.converters.TransferConverter;
 import br.com.fza.paymentchallenge.exceptions.CouldNotCreateTransferException;
 import br.com.fza.paymentchallenge.exceptions.TransferNotFoundException;
+import br.com.fza.paymentchallenge.rest.converters.TransferConverter;
 import br.com.fza.paymentchallenge.rest.request.TransferRequest;
 import br.com.fza.paymentchallenge.rest.response.TransferResponse;
 import br.com.fza.paymentchallenge.services.TransferService;

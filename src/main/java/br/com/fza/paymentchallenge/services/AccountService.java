@@ -8,8 +8,6 @@ public interface AccountService {
 
     Account createAccount(Account account);
 
-    void deleteAccount(Long id);
-
     Optional<Account> findAccount(Long id);
 
     Iterable<Account> findAllAccounts();

@@ -1,9 +1,9 @@
 package br.com.fza.paymentchallenge.rest;
 
-import br.com.fza.paymentchallenge.rest.converters.AccountConverter;
-import br.com.fza.paymentchallenge.rest.converters.AccountRequestConverter;
 import br.com.fza.paymentchallenge.exceptions.AccountNotFoundException;
 import br.com.fza.paymentchallenge.model.Account;
+import br.com.fza.paymentchallenge.rest.converters.AccountConverter;
+import br.com.fza.paymentchallenge.rest.converters.AccountRequestConverter;
 import br.com.fza.paymentchallenge.rest.request.AccountRequest;
 import br.com.fza.paymentchallenge.rest.response.AccountResponse;
 import br.com.fza.paymentchallenge.services.AccountService;
@@ -48,21 +48,6 @@ public class AccountController {
 
             final Account createdAccount = this.accountService.createAccount(this.accountRequestConverter.convert(accountRequest));
             return this.accountConverter.convert(createdAccount);
-        } catch(final Exception e) {
-            log.error(e.getMessage(), e);
-            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage(), e);
-        }
-    }
-
-    @DeleteMapping(value= "/{number}", produces = APPLICATION_JSON_UTF8_VALUE)
-    @ApiOperation(value = "Delete an Account")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void createAccount(final @PathVariable("number") Long id) {
-        try {
-            this.accountService.deleteAccount(id);
-        } catch(final AccountNotFoundException e) {
-            log.error(e.getMessage(), e);
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage(), e);
         } catch(final Exception e) {
             log.error(e.getMessage(), e);
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage(), e);
