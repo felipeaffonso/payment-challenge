@@ -22,7 +22,7 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class TransferServiceMysqlImpl implements TransferService {
+public class TransferServiceImpl implements TransferService {
 
     private final AccountService accountService;
     private final AccountRepository accountRepository;
