@@ -1,6 +1,8 @@
 package br.com.fza.paymentchallenge.model;
 
+import br.com.fza.paymentchallenge.exceptions.NegativeAccountBalanceException;
 import lombok.*;
+import org.springframework.lang.NonNull;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -29,5 +31,23 @@ public class Account extends BaseAuditEntity{
 
     @Version
     private Integer version;
+
+    public void giveMoney(final @NonNull BigDecimal amount) {
+        if(amount.compareTo(BigDecimal.ZERO) < 0) {
+            throw new IllegalArgumentException("Amount must be a positive and greater than zero BigDecimal");
+        }
+        final BigDecimal newBalance = balance.subtract(amount);
+        if(newBalance.compareTo(BigDecimal.ZERO) < 0) {
+            throw new NegativeAccountBalanceException();
+        }
+        this.balance = newBalance;
+    }
+
+    public void receiveMoney(final @NonNull BigDecimal amount) {
+        if(amount.compareTo(BigDecimal.ZERO) < 0) {
+            throw new IllegalArgumentException("Amount must be a positive and greater than zero BigDecimal");
+        }
+        this.balance = this.balance.add(amount);
+    }
 
 }

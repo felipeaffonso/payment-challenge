@@ -2,7 +2,6 @@ package br.com.fza.paymentchallenge.services;
 
 import br.com.fza.paymentchallenge.model.Account;
 
-import java.util.Collection;
 import java.util.Optional;
 
 public interface AccountService {
@@ -13,6 +12,8 @@ public interface AccountService {
 
     Optional<Account> findAccount(Long id);
 
-    Collection<Account> findAllAccounts();
+    Iterable<Account> findAllAccounts();
+
+    Account updateAccount(Account sourceAccount);
 
 }

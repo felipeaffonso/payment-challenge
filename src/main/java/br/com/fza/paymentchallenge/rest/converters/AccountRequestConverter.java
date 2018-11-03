@@ -1,5 +1,6 @@
-package br.com.fza.paymentchallenge.converter;
+package br.com.fza.paymentchallenge.rest.converters;
 
+import br.com.fza.paymentchallenge.converter.Converter;
 import br.com.fza.paymentchallenge.model.Account;
 import br.com.fza.paymentchallenge.rest.request.AccountRequest;
 import org.springframework.stereotype.Component;

@@ -1,7 +1,7 @@
-package br.com.fza.paymentchallenge.rest.controllers;
+package br.com.fza.paymentchallenge.rest;
 
-import br.com.fza.paymentchallenge.converter.AccountConverter;
-import br.com.fza.paymentchallenge.converter.AccountRequestConverter;
+import br.com.fza.paymentchallenge.rest.converters.AccountConverter;
+import br.com.fza.paymentchallenge.rest.converters.AccountRequestConverter;
 import br.com.fza.paymentchallenge.exceptions.AccountNotFoundException;
 import br.com.fza.paymentchallenge.model.Account;
 import br.com.fza.paymentchallenge.rest.request.AccountRequest;
@@ -17,8 +17,8 @@ import org.springframework.web.server.ResponseStatusException;
 
 import javax.validation.Valid;
 import java.util.Collection;
-import java.util.Optional;
 import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON_UTF8_VALUE;
 
@@ -74,8 +74,7 @@ public class AccountController {
     @GetMapping(value= "/{number}", produces = APPLICATION_JSON_UTF8_VALUE)
     public AccountResponse findAccount(final @PathVariable("number") Long id) {
         try {
-            final Optional<Account> optionalAccount = this.accountService.findAccount(id);
-            return optionalAccount
+            return  this.accountService.findAccount(id)
                     .map(this.accountConverter::convert)
                     .orElseThrow(() -> new AccountNotFoundException("Account # " + id + " does not exists."));
         } catch(final AccountNotFoundException e) {
@@ -92,8 +91,7 @@ public class AccountController {
     @GetMapping(produces = APPLICATION_JSON_UTF8_VALUE)
     public Collection<AccountResponse> findAllAccount() {
         try {
-            return this.accountService.findAllAccounts()
-                    .stream()
+            return StreamSupport.stream(this.accountService.findAllAccounts().spliterator(), false)
                     .map(this.accountConverter::convert)
                     .collect(Collectors.toList());
         } catch(final Exception e) {
