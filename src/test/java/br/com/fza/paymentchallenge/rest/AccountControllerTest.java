@@ -52,7 +52,7 @@ public class AccountControllerTest {
                     .accept(APPLICATION_JSON)
                     .contentType(APPLICATION_JSON)
                     .content("")
-        ).andExpect(status().is4xxClientError());
+        ).andExpect(status().isBadRequest());
 
     }
 
@@ -63,7 +63,7 @@ public class AccountControllerTest {
                         .accept(APPLICATION_JSON)
                         .contentType(APPLICATION_JSON)
                         .content("{}")
-        ).andExpect(status().is4xxClientError());
+        ).andExpect(status().isBadRequest());
     }
 
     @Test
@@ -127,7 +127,7 @@ public class AccountControllerTest {
                 .willThrow(exception);
 
         mockMvc.perform(get("/accounts/" + id).accept(APPLICATION_JSON))
-                .andExpect(status().is5xxServerError());
+                .andExpect(status().isInternalServerError());
     }
 
     @Test
