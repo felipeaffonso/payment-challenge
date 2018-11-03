@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 import java.util.Collection;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
@@ -45,7 +46,6 @@ public class AccountController {
     @ResponseStatus(HttpStatus.CREATED)
     public AccountResponse createAccount(final @Valid @RequestBody AccountRequest accountRequest) {
         try {
-
             final Account createdAccount = this.accountService.createAccount(this.accountRequestConverter.convert(accountRequest));
             return this.accountConverter.convert(createdAccount);
         } catch (final Exception e) {
