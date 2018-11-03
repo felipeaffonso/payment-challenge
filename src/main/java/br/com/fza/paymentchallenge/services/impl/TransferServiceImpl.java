@@ -38,7 +38,7 @@ public class TransferServiceImpl implements TransferService {
                             new AccountNotFoundException("The source account " + sourceAccountId + " does not exists."));
             final Account targetAccount = this.accountService.findAccount(targetAccountId)
                     .orElseThrow(() ->
-                            new AccountNotFoundException("The target account " + targetAccountId + " does not exists"));
+                            new AccountNotFoundException("The target account " + targetAccountId + " does not exists."));
 
             sourceAccount.giveMoney(amount);
             targetAccount.receiveMoney(amount);
