@@ -14,7 +14,7 @@ public class TransferConverter implements Converter<Transfer, TransferResponse> 
                 .transferNumber(from.getId())
                 .sourceAccountNumber(from.getSource().getId())
                 .targetAccountNumber(from.getTarget().getId())
-                .transferedAmount(from.getAmount())
+                .transferredAmount(from.getAmount())
                 .createdDate(from.getCreatedAt())
                 .build();
     }

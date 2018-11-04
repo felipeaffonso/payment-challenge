@@ -14,6 +14,7 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
+@NotNull
 @Validated
 @NotSameAccount
 @ApiModel(value = "transferRequest",

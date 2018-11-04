@@ -40,4 +40,5 @@ public class NotSameAccountValidatorTest {
 
         assertThat(violations).hasSize(0);
     }
+
 }

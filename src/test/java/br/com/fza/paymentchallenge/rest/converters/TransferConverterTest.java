@@ -60,7 +60,7 @@ public class TransferConverterTest {
                 .createdDate(createdAt)
                 .sourceAccountNumber(sourceAccount.getId())
                 .targetAccountNumber(targetAccount.getId())
-                .transferedAmount(TEN)
+                .transferredAmount(TEN)
                 .transferNumber(10L)
                 .build();
 

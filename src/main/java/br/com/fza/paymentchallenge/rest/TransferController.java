@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON_UTF8_VALUE;
 
@@ -36,7 +37,7 @@ public class TransferController {
     @PostMapping(produces = APPLICATION_JSON_UTF8_VALUE, consumes = APPLICATION_JSON_UTF8_VALUE)
     @ApiOperation(value = "Create a new Transfer")
     @ResponseStatus(HttpStatus.CREATED)
-    public TransferResponse createTransfer(final @Valid @RequestBody TransferRequest transferRequest) {
+    public TransferResponse createTransfer(final @NotNull @Valid @RequestBody TransferRequest transferRequest) {
         try {
             return this.transferService.createTransfer(
                     transferRequest.getSourceAccountNumber(),

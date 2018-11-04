@@ -20,7 +20,7 @@ public class TransferResponse {
 
     private Long targetAccountNumber;
 
-    private BigDecimal transferedAmount;
+    private BigDecimal transferredAmount;
 
     private LocalDateTime createdDate;
 

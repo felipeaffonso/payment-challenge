@@ -127,14 +127,14 @@ public class DateUtilsTest {
     @Test
     public void timestampToLocalDateTime() {
         //given
-        final Timestamp timestamp = new Timestamp(now()
+        final Timestamp timestamp = new Timestamp(now().plusDays(1)
                 .atStartOfDay(ZoneOffset.systemDefault().normalized()).toInstant().toEpochMilli());
 
         //when
         final LocalDateTime result = DateUtils.timestampToLocalDateTime(timestamp);
 
         //then
-        final LocalDateTime expectedLocalDateTime = now().atStartOfDay();
+        final LocalDateTime expectedLocalDateTime = now().plusDays(1).atStartOfDay();
         assertThat(result)
                 .isEqualTo(expectedLocalDateTime);
     }

@@ -1,6 +1,5 @@
 package br.com.fza.paymentchallenge.rest;
 
-import br.com.fza.paymentchallenge.exceptions.TransferNotFoundException;
 import br.com.fza.paymentchallenge.model.Account;
 import br.com.fza.paymentchallenge.model.Transfer;
 import br.com.fza.paymentchallenge.rest.converters.TransferConverter;
@@ -19,9 +18,12 @@ import java.math.BigDecimal;
 import java.util.Optional;
 
 import static java.math.BigDecimal.TEN;
+import static org.hamcrest.Matchers.is;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(SpringRunner.class)
@@ -38,7 +40,96 @@ public class TransferControllerTest {
     private MockMvc mockMvc;
 
     @Test
-    public void createTransfer() throws Exception {
+    public void createTransferMustReturnBadRequestWithEmptyPayload() throws Exception {
+        this.mockMvc.perform(
+                post("/transfers")
+                        .accept(APPLICATION_JSON)
+                        .contentType(APPLICATION_JSON)
+                        .content("")
+        ).andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void createTransferMustReturnInternalServerErrorWhenTransferServiceFails() throws Exception {
+        final Long sourceAccountId = 1L;
+        final Long targetAccountId = 2L;
+        final Throwable exception = new NullPointerException();
+
+        given(this.transferService.createTransfer(sourceAccountId, targetAccountId, BigDecimal.TEN))
+                .willThrow(exception);
+
+        this.mockMvc.perform(
+                post("/transfers")
+                        .accept(APPLICATION_JSON)
+                        .contentType(APPLICATION_JSON)
+                        .content("{\"sourceAccountNumber\": 1, \"targetAccountNumber\": 2, \"amount\": 10}")
+        ).andExpect(status().isInternalServerError());
+    }
+
+    @Test
+    public void createTransferMustReturnInternalServerErrorWhenTransferReturnsEmpty() throws Exception {
+        final Long sourceAccountId = 1L;
+        final Long targetAccountId = 2L;
+
+        given(this.transferService.createTransfer(sourceAccountId, targetAccountId, BigDecimal.TEN))
+                .willReturn(Optional.empty());
+
+        this.mockMvc.perform(
+                post("/transfers")
+                        .accept(APPLICATION_JSON)
+                        .contentType(APPLICATION_JSON)
+                        .content("{\"sourceAccountNumber\": 1, \"targetAccountNumber\": 2, \"amount\": 10}")
+        ).andExpect(status().isInternalServerError());
+    }
+
+    @Test
+    public void createTransferMustReturnCreatedWithValidInput() throws Exception {
+        final Long sourceAccountId = 1L;
+        final Long targetAccountId = 2L;
+
+        final Account sourceAccount = Account.builder()
+                .balance(TEN)
+                .id(1L)
+                .name("Source")
+                .version(0)
+                .build();
+        final Account targetAccount = Account.builder()
+                .balance(TEN)
+                .id(2L)
+                .name("Target")
+                .version(0)
+                .build();
+
+        final Transfer persistedTransfer = Transfer.builder()
+                .id(1L)
+                .amount(TEN)
+                .source(sourceAccount)
+                .target(targetAccount)
+                .build();
+
+        given(this.transferService.createTransfer(sourceAccountId, targetAccountId, BigDecimal.TEN))
+                .willReturn(Optional.of(persistedTransfer));
+
+        final TransferResponse transferResponse = TransferResponse.builder()
+                .transferNumber(1L)
+                .sourceAccountNumber(sourceAccount.getId())
+                .targetAccountNumber(targetAccount.getId())
+                .transferredAmount(TEN)
+                .build();
+
+        given(transferConverter.convert(persistedTransfer))
+                .willReturn(transferResponse);
+
+        this.mockMvc.perform(
+                post("/transfers")
+                        .accept(APPLICATION_JSON)
+                        .contentType(APPLICATION_JSON)
+                        .content("{\"sourceAccountNumber\": 1, \"targetAccountNumber\": 2, \"amount\": 10}")
+        )       .andExpect(status().isCreated())
+                .andExpect(jsonPath("transferNumber", is(1)))
+                .andExpect(jsonPath("sourceAccountNumber", is(1)))
+                .andExpect(jsonPath("targetAccountNumber", is(2)))
+                .andExpect(jsonPath("transferredAmount", is(10)));
     }
 
     @Test
@@ -97,7 +188,7 @@ public class TransferControllerTest {
                 .transferNumber(1L)
                 .sourceAccountNumber(sourceAccount.getId())
                 .targetAccountNumber(targetAccount.getId())
-                .transferedAmount(TEN)
+                .transferredAmount(TEN)
                 .build();
 
         given(this.transferConverter.convert(persistedTransfer))
