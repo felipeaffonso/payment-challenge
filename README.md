@@ -34,6 +34,8 @@ Because of this, the application have different objects that comes in and out.
 
 To convert the Objects, I have created a Functional Interface that can be implemented with the necessary objects.
 
+There is `data.sql` file that inserts 2 example accounts and 1 example transfer between them.
+
 
 ## Technical Info
 
@@ -68,7 +70,7 @@ $ mvn clean install
 You are ready to run with the command:
 
 ```sh
-$ java -jar target/payment-challenge-1.0.0-SNAPSHOT.jar 
+$ mvn springboot:run
 ```
 
 The program will start embedded tomcat at port 8080, so you can now navigate to [Swagger UI](http://localhost:8080/swagger-ui.html)
