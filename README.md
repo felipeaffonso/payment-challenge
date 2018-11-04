@@ -27,7 +27,7 @@ I just used the Optimistic Lock JPA feature, that controls the object `version` 
 
 As we are dealing with financial information, I used another JPA Feature called `Auditing`, that maintain `createadAt` and `updatedAt` fields at the entities.
 
-The application make use of `RuntimeException`s for business flux control, that affects also the api responses.
+The application make use of `RuntimeException`s for business flux control, that affects also the API responses.
 
 There is a difference between the Requests and the Responses that is handled by the `Controllers` and the `Service` layer. There are some data that sometimes we don't want or we can't expose for external world. 
 Because of this, the application have different objects that comes in and out.
