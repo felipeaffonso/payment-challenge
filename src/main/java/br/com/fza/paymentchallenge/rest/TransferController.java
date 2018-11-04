@@ -53,7 +53,7 @@ public class TransferController {
     @ApiOperation(value = "Find a Specific Transfer")
     @ResponseStatus(HttpStatus.OK)
     @GetMapping(value = "/{number}", produces = APPLICATION_JSON_UTF8_VALUE)
-    public TransferResponse findTransaction(final @PathVariable("number") Long id) {
+    public TransferResponse findTransfer(final @PathVariable("number") Long id) {
         try {
             return this.transferService.findTransfer(id)
                     .map(this.transferConverter::convert)
